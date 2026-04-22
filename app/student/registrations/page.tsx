@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { QRCodeSVG } from 'qrcode.react'
+import { Ticket } from 'griddy-icons'
 
 export default async function StudentRegistrationsPage() {
   const supabase = await createClient()
@@ -16,7 +17,7 @@ export default async function StudentRegistrationsPage() {
       *,
       events (*)
     `)
-    .eq('student_id', user.id)
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
   return (
@@ -35,7 +36,7 @@ export default async function StudentRegistrationsPage() {
                 <div key={reg.id} className="bg-white rounded-3xl shadow-sm border border-zinc-200 overflow-hidden flex flex-col group hover:border-blue-300 hover:shadow-md transition-all duration-300">
                   <div className="h-28 bg-gradient-to-tr from-blue-700 to-indigo-800 relative">
                      <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md rounded-full px-3 py-1 text-[10px] font-bold text-white tracking-widest uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] ring-1 ring-white/30">
-                        {reg.status}
+                        {(reg as any).attendance_status || 'registered'}
                      </div>
                   </div>
                   <div className="px-6 pt-0 pb-6 flex-1 flex flex-col items-center">
@@ -65,7 +66,9 @@ export default async function StudentRegistrationsPage() {
             })
           ) : (
             <div className="col-span-full py-20 text-center rounded-2xl bg-white border border-dashed border-zinc-200">
-              <span className="text-5xl mb-4 block">🎟️</span>
+              <span className="mb-4 block text-zinc-400">
+                <Ticket size={44} />
+              </span>
               <p className="text-lg font-bold text-zinc-900">No tickets yet.</p>
               <p className="text-sm text-zinc-500 mt-2 mb-6 max-w-sm mx-auto">You haven't registered for any upcoming events. Head over to the dashboard to find one.</p>
               <Link href="/student/dashboard" className="text-xs font-bold text-blue-600 bg-blue-50 px-6 py-3 rounded-xl hover:bg-blue-100 hover:text-blue-800 transition-colors uppercase tracking-widest">

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { adminLogin } from './actions'
+import { ShieldCheck, AlertCircle, Lock } from 'griddy-icons'
 
 export default function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null)
@@ -29,7 +30,7 @@ export default function AdminLoginPage() {
         {/* Header Badge */}
         <div className="text-center">
           <div className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600/10 ring-1 ring-red-500/30 shadow-[0_0_30px_rgba(239,68,68,0.15)]">
-            <span className="text-4xl">🛡️</span>
+            <ShieldCheck size={32} className="text-red-400" />
           </div>
           <h1 className="mt-6 text-3xl font-black tracking-tight text-white">
             Admin Portal
@@ -44,7 +45,7 @@ export default function AdminLoginPage() {
           <form method="POST" className="space-y-5" onSubmit={handleSubmit}>
             {error && (
               <div className="flex items-start gap-3 rounded-xl bg-red-500/10 p-4 text-sm text-red-400 ring-1 ring-inset ring-red-500/30">
-                <span className="text-lg leading-none mt-0.5">🚫</span>
+                <AlertCircle size={18} className="mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
@@ -91,7 +92,7 @@ export default function AdminLoginPage() {
                   Verifying credentials...
                 </>
               ) : (
-                <>🔐 Sign in as Administrator</>
+                <><Lock size={16} /> Sign in as Administrator</>
               )}
             </button>
           </form>

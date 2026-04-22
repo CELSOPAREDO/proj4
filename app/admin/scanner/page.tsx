@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import { markAttendance } from './actions'
+import { PhotoCamera, CheckCircle, AlertTriangle } from 'griddy-icons'
 
 export default function QRScannerPage() {
   const [scanResult, setScanResult] = useState<{success: boolean, message: string} | null>(null)
@@ -52,7 +53,9 @@ export default function QRScannerPage() {
         <div className="bg-white rounded-3xl shadow-sm border border-zinc-200 overflow-hidden p-8">
            {!scanning ? (
               <div className="py-20 flex flex-col items-center">
-                 <span className="text-6xl mb-6 opacity-80">📸</span>
+                 <span className="mb-6 text-zinc-400">
+                   <PhotoCamera size={56} />
+                 </span>
                  <p className="font-semibold text-zinc-900 mb-2">Camera is deactivated</p>
                  <p className="text-sm text-zinc-500 mb-8 max-w-sm">Click the button below to grant camera access and start validating student registrations.</p>
                  <button onClick={() => setScanning(true)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-[0_4px_14px_0_rgb(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.23)] hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98]">
@@ -77,7 +80,7 @@ export default function QRScannerPage() {
                  <div className="mt-8 h-20 w-full max-w-md mx-auto">
                     {scanResult && (
                        <div className={`px-6 py-4 rounded-xl shadow-lg border font-semibold tracking-wide flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 ${scanResult.success ? 'bg-green-50 text-green-800 border-green-200/50' : 'bg-red-50 text-red-800 border-red-200/50'}`}>
-                          <span className="text-2xl pt-0.5">{scanResult.success ? '✅' : '🚨'}</span>
+                          <span className="pt-0.5">{scanResult.success ? <CheckCircle size={22} /> : <AlertTriangle size={22} />}</span>
                           <span className="text-left leading-snug">{scanResult.message}</span>
                        </div>
                     )}

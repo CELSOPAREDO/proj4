@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { deleteEvent } from './actions'
+import { Plus, Calendar, LocationPin } from 'griddy-icons'
 
 export default async function AdminEventsPage() {
   const supabase = await createClient()
@@ -20,7 +21,7 @@ export default async function AdminEventsPage() {
             <p className="text-zinc-500 mt-1">View, edit, or remove upcoming and past events.</p>
           </div>
           <Link href="/admin/events/new" className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors">
-             <span className="mr-2">+</span> New Event
+             <Plus size={16} className="mr-2" /> New Event
           </Link>
         </div>
 
@@ -32,8 +33,8 @@ export default async function AdminEventsPage() {
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-zinc-900 group-hover:text-blue-600 transition-colors">{event.title}</h3>
                     <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-zinc-500">
-                      <span className="flex items-center gap-1.5"><span className="text-lg">📅</span> {new Date(event.date).toLocaleDateString()} at {new Date(event.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                      <span className="flex items-center gap-1.5"><span className="text-lg">📍</span> {event.location}</span>
+                      <span className="flex items-center gap-1.5"><Calendar size={16} /> {new Date(event.date).toLocaleDateString()} at {new Date(event.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                      <span className="flex items-center gap-1.5"><LocationPin size={16} /> {event.location}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -54,7 +55,7 @@ export default async function AdminEventsPage() {
             </div>
           ) : (
             <div className="p-16 text-center flex flex-col items-center">
-              <span className="text-5xl mb-4 block">📅</span>
+              <span className="mb-4 block text-zinc-400"><Calendar size={44} /></span>
               <p className="text-lg font-semibold text-zinc-900">No events yet</p>
               <p className="text-sm text-zinc-500 mt-2 mb-8 max-w-sm mx-auto">Get started by creating your very first event to manage your student registrations.</p>
               <Link href="/admin/events/new" className="text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-xl transition-colors">

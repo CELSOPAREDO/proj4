@@ -2,11 +2,12 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { User, GridAlt, Ticket } from 'griddy-icons'
 
 const links = [
-  { href: '/student/profile', label: 'My Profile', icon: '👤' },
-  { href: '/student/dashboard', label: 'Dashboard', icon: null },
-  { href: '/student/registrations', label: 'My Registrations', icon: '🎟️' },
+  { href: '/student/profile', label: 'My Profile', icon: User },
+  { href: '/student/dashboard', label: 'Dashboard', icon: GridAlt },
+  { href: '/student/registrations', label: 'My Registrations', icon: Ticket },
 ]
 
 export default function StudentNav() {
@@ -14,7 +15,7 @@ export default function StudentNav() {
 
   return (
     <div className="p-4 space-y-1">
-      {links.map(({ href, label, icon }) => {
+      {links.map(({ href, label, icon: Icon }) => {
         const isActive = pathname === href || pathname.startsWith(href + '/')
         return (
           <Link
@@ -27,7 +28,7 @@ export default function StudentNav() {
             }`}
           >
             <span>{label}</span>
-            {icon && <span>{icon}</span>}
+            <Icon size={16} />
           </Link>
         )
       })}

@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { Plus, Calendar, Users } from 'griddy-icons'
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
@@ -47,20 +48,20 @@ export default async function AdminDashboard() {
             <p className="text-zinc-500 mt-1">Overview of all events and participants.</p>
           </div>
           <Link href="/admin/events/new" className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 transition-all duration-200">
-             <span className="mr-2">+</span> Create Event
+             <Plus size={16} className="mr-2" /> Create Event
           </Link>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100 hover:shadow-md transition-all">
             <h3 className="text-sm font-medium text-zinc-500 flex items-center gap-2">
-              <span className="text-lg">📅</span> Total Events
+              <Calendar size={16} /> Total Events
             </h3>
             <p className="mt-4 text-4xl font-bold text-zinc-900">{eventsCount || 0}</p>
           </div>
            <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100 hover:shadow-md transition-all">
             <h3 className="text-sm font-medium text-zinc-500 flex items-center gap-2">
-              <span className="text-lg">👥</span> Total Students
+              <Users size={16} /> Total Students
             </h3>
             <p className="mt-4 text-4xl font-bold text-zinc-900">{studentsCount || 0}</p>
           </div>
@@ -78,7 +79,7 @@ export default async function AdminDashboard() {
                 <div key={event.id} className="flex items-center justify-between p-4 rounded-xl border border-zinc-100 bg-zinc-50 hover:bg-zinc-100 transition-colors">
                   <div>
                     <h4 className="font-semibold text-zinc-900">{event.title}</h4>
-                    <p className="text-sm text-zinc-500 mt-1">📅 {new Date(event.date).toLocaleDateString()}</p>
+                    <p className="text-sm text-zinc-500 mt-1 inline-flex items-center gap-1.5"><Calendar size={14} /> {new Date(event.date).toLocaleDateString()}</p>
                   </div>
                   <Link href={`/admin/events/${event.id}/edit`} className="text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">Edit</Link>
                 </div>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { adminSignup } from './actions'
+import { Lock, AlertCircle, Eye, EyeOff } from 'griddy-icons'
 
 export default function AdminSignupPage() {
   const [error, setError] = useState<string | null>(null)
@@ -31,7 +32,7 @@ export default function AdminSignupPage() {
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-zinc-900 p-10 shadow-2xl ring-1 ring-white/10 relative z-10">
         <div className="text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 ring-1 ring-red-500/20">
-            <span className="text-3xl">🔐</span>
+            <Lock size={28} className="text-red-400" />
           </div>
           <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white">
             Admin Registration
@@ -44,7 +45,7 @@ export default function AdminSignupPage() {
         <form method="POST" className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="rounded-xl bg-red-500/10 p-4 text-sm text-red-400 ring-1 ring-inset ring-red-500/20 flex items-start gap-3">
-              <span className="text-lg mt-0.5">🚫</span>
+              <AlertCircle size={18} className="mt-0.5" />
               <span>{error}</span>
             </div>
           )}
@@ -110,7 +111,7 @@ export default function AdminSignupPage() {
                   onClick={() => setShowCode(!showCode)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors text-sm"
                 >
-                  {showCode ? '🙈' : '👁️'}
+                  {showCode ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               <p className="mt-2 text-xs text-zinc-500">This code is set by the system administrator</p>
@@ -132,7 +133,7 @@ export default function AdminSignupPage() {
                   Creating Admin Account...
                 </span>
               ) : (
-                '🔐 Create Admin Account'
+                'Create Admin Account'
               )}
             </button>
           </div>

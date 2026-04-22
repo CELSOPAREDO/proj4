@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { Calendar, LocationPin, CheckCircle } from 'griddy-icons'
 
 export default async function StudentDashboard() {
   const supabase = await createClient()
@@ -41,7 +42,7 @@ export default async function StudentDashboard() {
   const { data: registrations } = await supabase
     .from('registrations')
     .select('event_id')
-    .eq('student_id', user.id)
+    .eq('user_id', user.id)
     
   const registeredEventIds = new Set(registrations?.map(r => r.event_id) || [])
 
@@ -56,10 +57,10 @@ export default async function StudentDashboard() {
           </div>
           <div className="space-y-1.5 mb-4">
             <p className="text-sm text-zinc-500 flex items-center gap-2">
-              <span>📅</span> {new Date(event.date).toLocaleDateString()} at {new Date(event.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+              <Calendar size={16} /> {new Date(event.date).toLocaleDateString()} at {new Date(event.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
             </p>
             <p className="text-sm text-zinc-500 flex items-center gap-2">
-              <span>📍</span> {event.location}
+              <LocationPin size={16} /> {event.location}
             </p>
           </div>
           <p className="text-sm text-zinc-600 line-clamp-3 mb-4">{event.description}</p>
@@ -67,7 +68,7 @@ export default async function StudentDashboard() {
         <div className="mt-4 pt-4 border-t border-zinc-100">
           {isRegistered ? (
             <div className="w-full text-center py-2.5 bg-green-50 text-green-700 rounded-xl text-sm font-bold flex justify-center items-center gap-2 ring-1 ring-inset ring-green-500/20">
-              <span>✅</span> Registered
+              <CheckCircle size={16} /> Registered
             </div>
           ) : isPast ? (
             <div className="w-full text-center py-2.5 bg-zinc-100 text-zinc-400 rounded-xl text-sm font-medium">
@@ -105,7 +106,9 @@ export default async function StudentDashboard() {
             </div>
           ) : (
             <div className="py-16 text-center rounded-xl bg-zinc-50 border border-dashed border-zinc-200">
-              <span className="text-5xl mb-4 block opacity-50">📅</span>
+              <span className="mb-4 block opacity-50 text-zinc-400">
+                <Calendar size={44} />
+              </span>
               <p className="text-base font-semibold text-zinc-900">No upcoming events</p>
               <p className="text-sm text-zinc-500 mt-1">Check back later when organizers post new events.</p>
             </div>

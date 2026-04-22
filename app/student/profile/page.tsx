@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import ProfileForm from './ProfileForm'
+import { GraduationCap } from 'griddy-icons'
 
 export default async function ProfilePage() {
   const supabase = await createClient()
@@ -20,13 +21,13 @@ export default async function ProfilePage() {
   const { count: registrationCount } = await supabase
     .from('registrations')
     .select('*', { count: 'exact', head: true })
-    .eq('student_id', user.id)
+    .eq('user_id', user.id)
 
   // Count attended events
   const { data: attendedData } = await supabase
     .from('registrations')
     .select('id, attendance(id)')
-    .eq('student_id', user.id)
+    .eq('user_id', user.id)
 
   const attendedCount = attendedData?.filter(r => (r as any).attendance && (r as any).attendance.length > 0).length || 0
 
@@ -56,7 +57,7 @@ export default async function ProfilePage() {
             <p className="text-sm text-zinc-500 mt-0.5">{user.email}</p>
             <div className="flex items-center gap-2 mt-2">
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-500/20">
-                🎓 {profile?.role === 'admin' ? 'Administrator' : 'Student'}
+                <GraduationCap size={14} /> {profile?.role === 'admin' ? 'Administrator' : 'Student'}
               </span>
               <span className="text-xs text-zinc-400">
                 Joined {new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}

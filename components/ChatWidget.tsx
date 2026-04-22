@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { ChatCircle, Robot, Close, Send } from 'griddy-icons'
 
 type Message = {
   id: string;
@@ -11,7 +12,7 @@ type Message = {
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', role: 'bot', text: 'Hello! I am your Event Assistant 🤖. Ask me about upcoming events, how to register, or when the next event is!' }
+    { id: '1', role: 'bot', text: 'Hello! I am your Event Assistant. Ask me about upcoming events, how to register, or when the next event is!' }
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -57,7 +58,7 @@ export default function ChatWidget() {
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-6 right-6 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-[0_4px_20px_0_rgba(79,70,229,0.4)] flex items-center justify-center hover:bg-indigo-700 hover:scale-105 hover:-translate-y-1 transition-all z-40 ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
       >
-        <span className="text-2xl pt-1">💬</span>
+        <ChatCircle size={24} />
       </button>
 
       {/* Chat Window */}
@@ -67,7 +68,7 @@ export default function ChatWidget() {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] opacity-10"></div>
           <div className="flex items-center gap-3 relative z-10">
             <div className="bg-white/20 w-10 h-10 rounded-full flex items-center justify-center border border-white/30 shadow-inner">
-               <span className="text-xl pt-0.5">🤖</span>
+               <Robot size={20} />
             </div>
             <div>
               <h3 className="font-bold text-sm tracking-wide">Event Assistant</h3>
@@ -75,7 +76,7 @@ export default function ChatWidget() {
             </div>
           </div>
           <button onClick={() => setIsOpen(false)} className="relative z-10 text-white hover:bg-white/20 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
-             ✕
+             <Close size={16} />
           </button>
         </div>
 
@@ -111,7 +112,7 @@ export default function ChatWidget() {
             className="flex-1 bg-zinc-100 border-2 border-transparent rounded-xl px-4 py-2.5 text-sm focus:bg-white focus:border-indigo-100 focus:ring-4 focus:ring-indigo-50 transition-all outline-none"
           />
           <button type="submit" disabled={!input.trim() || loading} className="w-11 h-11 bg-indigo-600 text-white rounded-xl flex items-center justify-center hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.96]">
-            ➤
+            <Send size={18} />
           </button>
         </form>
       </div>

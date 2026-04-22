@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
-import ChatWidget from '@/components/ChatWidget'
 import StudentNav from './StudentNav'
+import { GraduationCap } from 'griddy-icons'
 
 export default async function StudentLayout({
   children,
@@ -17,7 +17,7 @@ export default async function StudentLayout({
       <aside className="w-full md:w-64 bg-white border-r border-zinc-200 flex-shrink-0 md:min-h-screen">
         <div className="h-16 flex items-center px-6 border-b border-zinc-200">
           <div className="flex items-center gap-2">
-            <span className="text-xl">🎓</span>
+            <GraduationCap size={20} />
             <span className="text-lg font-bold tracking-tight text-zinc-900">StudentPortal</span>
           </div>
         </div>
@@ -34,8 +34,6 @@ export default async function StudentLayout({
         </header>
         <div className="flex-1 overflow-y-auto w-full relative pb-10">
             {children}
-            {/* The Chatbot floating widget */}
-            <ChatWidget />
         </div>
       </main>
     </div>

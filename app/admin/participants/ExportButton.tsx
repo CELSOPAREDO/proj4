@@ -1,5 +1,7 @@
 'use client'
 
+import { Download } from 'griddy-icons'
+
 export default function ExportButton() {
   const handleExport = () => {
     const rows = Array.from(document.querySelectorAll('table tr')).map(row => 
@@ -19,7 +21,7 @@ export default function ExportButton() {
       onClick={handleExport}
       className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-sm font-bold shadow-sm transition-colors cursor-pointer"
     >
-      <span>📥</span> Export CSV
+      <Download size={16} /> Export CSV
     </button>
   )
 }

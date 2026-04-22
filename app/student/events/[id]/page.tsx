@@ -3,9 +3,11 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { registerForEvent } from '../../actions'
 import { QRCodeSVG } from 'qrcode.react'
+import { ArrowLeft, AnnotationText, LocationPin, Calendar, Time, CheckCircle, ArrowRight, AlertCircle } from 'griddy-icons'
 
-export default async function StudentEventDetailsPage(props: { params: Promise<{ id: string }> }) {
+export default async function StudentEventDetailsPage(props: { params: Promise<{ id: string }>; searchParams: Promise<{ error?: string }> }) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
@@ -18,9 +20,9 @@ export default async function StudentEventDetailsPage(props: { params: Promise<{
   // Check if they are already registered — fetch full registration for QR
   const { data: existingReg } = await supabase
     .from('registrations')
-    .select('id, qr_code_data, status, created_at')
+    .select('id, qr_code_data, attendance_status, created_at')
     .eq('event_id', params.id)
-    .eq('student_id', user.id)
+    .eq('user_id', user.id)
     .maybeSingle()
 
   const isRegistered = !!existingReg
@@ -33,9 +35,18 @@ export default async function StudentEventDetailsPage(props: { params: Promise<{
   return (
     <div className="p-8 font-sans">
       <div className="max-w-4xl mx-auto">
+        {searchParams?.error && (
+          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+            <p className="inline-flex items-center gap-2 font-medium">
+              <AlertCircle size={16} />
+              {searchParams.error}
+            </p>
+          </div>
+        )}
+
         <div className="mb-6">
           <Link href="/student/dashboard" className="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors flex items-center gap-2 w-max">
-            <span>←</span> Back to Dashboard
+            <ArrowLeft size={14} /> Back to Dashboard
           </Link>
         </div>
         
@@ -54,7 +65,7 @@ export default async function StudentEventDetailsPage(props: { params: Promise<{
             <div className="flex-1 space-y-8">
               <div>
                 <h2 className="text-xl font-semibold text-zinc-900 mb-4 border-b border-zinc-100 pb-3 flex items-center gap-2">
-                  <span className="text-2xl">📝</span> About the Event
+                  <AnnotationText size={22} /> About the Event
                 </h2>
                 <p className="text-zinc-600 leading-relaxed whitespace-pre-wrap">{event.description || 'No description provided by the organizer.'}</p>
               </div>
@@ -62,7 +73,7 @@ export default async function StudentEventDetailsPage(props: { params: Promise<{
               {/* Map Section */}
               <div>
                 <h2 className="text-xl font-semibold text-zinc-900 mb-4 border-b border-zinc-100 pb-3 flex items-center gap-2">
-                  <span className="text-2xl">🗺️</span> Event Location
+                  <LocationPin size={22} /> Event Location
                 </h2>
                 <div className="rounded-2xl overflow-hidden border border-zinc-200 shadow-sm">
                   <iframe
@@ -82,7 +93,7 @@ export default async function StudentEventDetailsPage(props: { params: Promise<{
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors"
                 >
-                  <span>📍</span> Open in Google Maps ↗
+                  <LocationPin size={16} /> Open in Google Maps <ArrowRight size={14} />
                 </a>
               </div>
             </div>
@@ -93,16 +104,16 @@ export default async function StudentEventDetailsPage(props: { params: Promise<{
                 <div>
                   <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Date & Time</h3>
                   <p className="font-semibold text-zinc-900 flex items-center gap-2">
-                    <span className="text-lg opacity-80">📅</span> {new Date(event.date).toLocaleDateString()}
+                    <Calendar size={18} /> {new Date(event.date).toLocaleDateString()}
                   </p>
                   <p className="font-semibold text-zinc-900 mt-2 flex items-center gap-2">
-                    <span className="text-lg opacity-80">⏱️</span> {new Date(event.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    <Time size={18} /> {new Date(event.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                   </p>
                 </div>
                 <div>
                   <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Location</h3>
                   <p className="font-semibold text-zinc-900 flex items-center gap-2">
-                    <span className="text-lg opacity-80">📍</span> {event.location}
+                    <LocationPin size={18} /> {event.location}
                   </p>
                 </div>
               </div>
@@ -113,7 +124,7 @@ export default async function StudentEventDetailsPage(props: { params: Promise<{
                   <div className="bg-white rounded-3xl border border-zinc-200 shadow-md overflow-hidden">
                     {/* Ticket header */}
                     <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-4 text-white text-center">
-                      <p className="text-xs font-bold uppercase tracking-widest opacity-80 mb-1">Your Ticket ✅</p>
+                      <p className="text-xs font-bold uppercase tracking-widest opacity-80 mb-1 inline-flex items-center gap-1"><CheckCircle size={14} /> Your Ticket</p>
                       <p className="text-base font-extrabold leading-tight">{event.title}</p>
                     </div>
 
@@ -152,7 +163,7 @@ export default async function StudentEventDetailsPage(props: { params: Promise<{
                         href="/student/registrations"
                         className="block w-full text-center py-2.5 text-sm font-semibold text-blue-600 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors"
                       >
-                        View All My Tickets →
+                        <span className="inline-flex items-center gap-2">View All My Tickets <ArrowRight size={14} /></span>
                       </Link>
                     </div>
                   </div>

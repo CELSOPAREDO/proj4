@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import AdminNav from './AdminNav'
+import { GraduationCap } from 'griddy-icons'
 
 export default async function AdminLayout({
   children,
@@ -17,7 +18,7 @@ export default async function AdminLayout({
       <aside className="w-full md:w-64 bg-white border-r border-zinc-200 flex-shrink-0 md:min-h-screen">
         <div className="h-16 flex items-center px-6 border-b border-zinc-200">
           <div className="flex items-center gap-2">
-            <span className="text-xl">🎓</span>
+            <GraduationCap size={20} />
             <span className="text-lg font-bold tracking-tight text-zinc-900">AdminPanel</span>
           </div>
         </div>

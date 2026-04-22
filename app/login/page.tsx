@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { login } from './actions'
 import Link from 'next/link'
+import { GraduationCap } from 'griddy-icons'
 
 export default function LoginPage() {
   const [errorStatus, setErrorStatus] = useState<string | null>(null)
@@ -27,7 +28,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-zinc-100 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
         <div className="text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-50">
-            <span className="text-3xl">🎓</span>
+            <GraduationCap size={28} className="text-blue-600" />
           </div>
           <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-zinc-900">
             Welcome back

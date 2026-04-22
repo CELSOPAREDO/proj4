@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { GridAlt, Calendar, Users, QrCodeScan } from 'griddy-icons'
 
 const links = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: null },
-  { href: '/admin/events', label: 'Events', icon: null },
-  { href: '/admin/participants', label: 'Participants', icon: null },
-  { href: '/admin/scanner', label: 'QR Scanner', icon: '📸' },
+  { href: '/admin/dashboard', label: 'Dashboard', icon: GridAlt },
+  { href: '/admin/events', label: 'Events', icon: Calendar },
+  { href: '/admin/participants', label: 'Participants', icon: Users },
+  { href: '/admin/scanner', label: 'QR Scanner', icon: QrCodeScan },
 ]
 
 export default function AdminNav() {
@@ -15,7 +16,7 @@ export default function AdminNav() {
 
   return (
     <div className="p-4 space-y-1">
-      {links.map(({ href, label, icon }) => {
+      {links.map(({ href, label, icon: Icon }) => {
         const isActive = pathname === href || pathname.startsWith(href + '/')
         return (
           <Link
@@ -28,7 +29,7 @@ export default function AdminNav() {
             }`}
           >
             <span>{label}</span>
-            {icon && <span>{icon}</span>}
+            <Icon size={16} />
           </Link>
         )
       })}
