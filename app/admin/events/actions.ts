@@ -88,7 +88,9 @@ export async function updateEvent(id: string, formData: FormData) {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'Not authenticated' }
+  if (!user) {
+    redirect('/admin-login')
+  }
 
   const title = formData.get('title') as string
   const description = formData.get('description') as string
@@ -96,7 +98,9 @@ export async function updateEvent(id: string, formData: FormData) {
   const time = formData.get('time') as string
   const location = formData.get('location') as string
 
-  if (!title || !date || !time || !location) return { error: 'Please fill all required fields.' }
+  if (!title || !date || !time || !location) {
+    redirect(`/admin/events/${id}/edit?error=${encodeURIComponent('Please fill all required fields.')}`)
+  }
 
   const dateTime = new Date(`${date}T${time}`).toISOString()
 
@@ -104,7 +108,9 @@ export async function updateEvent(id: string, formData: FormData) {
     title, description, date: dateTime, starts_at: dateTime, location, venue: location
   }).eq('id', id)
 
-  if (error) return { error: error.message }
+  if (error) {
+    redirect(`/admin/events/${id}/edit?error=${encodeURIComponent(error.message)}`)
+  }
 
   revalidatePath('/admin/dashboard')
   revalidatePath('/admin/events')

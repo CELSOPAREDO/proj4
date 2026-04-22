@@ -3,8 +3,9 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { updateEvent } from '../../actions'
 
-export default async function EditEventPage(props: { params: Promise<{ id: string }> }) {
+export default async function EditEventPage(props: { params: Promise<{ id: string }>; searchParams: Promise<{ error?: string }> }) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
   const supabase = await createClient()
   
   const { data: event } = await supabase.from('events').select('*').eq('id', params.id).single()
@@ -21,6 +22,11 @@ export default async function EditEventPage(props: { params: Promise<{ id: strin
   return (
     <div className="p-8">
       <div className="max-w-3xl mx-auto">
+        {searchParams?.error && (
+          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">
+            {searchParams.error}
+          </div>
+        )}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-zinc-900 tracking-tight">Edit Event</h1>
